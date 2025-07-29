@@ -16,7 +16,7 @@ import threading
 import tkinter as tk
 import winreg
 import zipfile
-from tkinter import filedialog, messagebox, PhotoImage
+from tkinter import PhotoImage, filedialog, messagebox
 
 # 配置日志
 logging.basicConfig(
@@ -39,7 +39,7 @@ class ADBInstaller:
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("ADB 安装器")
-        self.root.geometry("500x400")
+        self.root.geometry("500x460")
         self.root.resizable(False, False)
         
         # 设置图标（如果有的话）
