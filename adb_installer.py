@@ -6,17 +6,17 @@ ADB for Windows Installer
 Windows系统下的ADB安装器
 """
 
+import ctypes
+import logging
 import os
-import sys
-import tkinter as tk
-from tkinter import messagebox, filedialog
+import shutil
 import subprocess
+import sys
+import threading
+import tkinter as tk
 import winreg
 import zipfile
-import shutil
-import ctypes
-import threading
-import logging
+from tkinter import filedialog, messagebox, PhotoImage
 
 # 配置日志
 logging.basicConfig(
@@ -39,7 +39,7 @@ class ADBInstaller:
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("ADB 安装器")
-        self.root.geometry("500x300")
+        self.root.geometry("500x400")
         self.root.resizable(False, False)
         
         # 设置图标（如果有的话）
@@ -83,13 +83,25 @@ class ADBInstaller:
     
     def init_ui(self):
         """初始化用户界面"""
+        # Logo
+        try:
+            logo_path = self.get_resource_path(os.path.join("data", "logo.png"))
+            logo_image = PhotoImage(file=logo_path)
+            # 缩放logo到合适大小（如果需要）
+            logo_image = logo_image.subsample(2, 2)  # 缩小一半
+            logo_label = tk.Label(self.root, image=logo_image)
+            logo_label.image = logo_image  # 保持引用，防止垃圾回收
+            logo_label.pack(pady=10)
+        except Exception as e:
+            logging.warning(f"无法加载logo: {str(e)}")
+        
         # 标题
         title_label = tk.Label(
             self.root,
             text="ADB for Windows 安装器",
             font=("Microsoft YaHei", 16, "bold")
         )
-        title_label.pack(pady=20)
+        title_label.pack(pady=10)
         
         # 状态标签
         self.status_label = tk.Label(
@@ -151,7 +163,7 @@ class ADBInstaller:
         # 版权信息
         copyright_label = tk.Label(
             self.root,
-            text="© 2024 ADB Installer",
+            text="© 2025 深圳智盛好机汇科技有限公司",
             font=("Microsoft YaHei", 8),
             fg="gray"
         )
